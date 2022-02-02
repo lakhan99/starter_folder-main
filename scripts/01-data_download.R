@@ -39,4 +39,4 @@ covid_cases <-
 #### Save data #### 
 
 write_csv(covid_cases, "inputs/data/covid_cases.csv")
-         
+       
