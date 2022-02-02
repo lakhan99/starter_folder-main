@@ -1,0 +1,193 @@
+---
+title: "My title"
+subtitle: "My subtitle if needed"
+author: 
+  - Arsh Lakhanpal
+thanks: "Code and data are available at: LINK."
+date: "`r format(Sys.time(), '%d %B %Y')`"
+abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
+output:
+  bookdown::pdf_document2
+toc: FALSE
+bibliography: references.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(palmerpenguins)
+library(opendatatoronto)
+library(dplyr)
+library(tidygeocoder)
+library(lubridate)
+library(janitor)
+library(ggmap)
+```
+
+# Introduction
+
+On December 31, 2019 the world saw its first case of the coronavirus, officially referred to as SARS-CoV-2 or COVID-19, in Wuhan China and by January 25, 2020 Toronto had seen its first case. Ever since, the virus continues to spread in various forms like the Delta variant and the most recent being the Omicron variant. The province has taken many attempts at fighting the virus which include locking down the province and shutting down non-essential activities in hopes of limiting close contact between citizens.
+
+You can and should cross-reference sections and sub-sections. For instance, Section \@ref(data). R Markdown automatically makes the sections lower case and adds a dash to spaces to generate labels, for instance, Section \@ref(first-discussion-point). 
+
+
+
+# Data
+
+```{r}
+#covid_cases <- COVID19_cases
+covid_cases <- clean_names(covid_cases)
+covid_cases <- subset(covid_cases, select = -c(1,2,7,8))
+```
+The statistical programming language used to work with the data in this paper is R (add citation) along with packages like tidyverse, knitr. The "COVID-19 Cases in Toronto" dataset was obtained from Open Data Toronto which houses a broad number of datasets. This data set was published by Toronto Public Health and for this paper, this dataset was officially imported from the opendatatoronto package in R.
+
+  This data consists of confirmed and probable reported COVID-19 cases among Toronto residents with demographic, geographical and epidemiological variables.(citation) The data itself is claimed to have been extracted from the provincial Case and Contact Management System. It is important to note that as the pandemic is happening, this dataset continues to get updated therefore results of this dataset are based off data up till January 24,2022. The dataset consists of 272017 observations of 18 variables however, since the first two variables were simply just "id" and "Assigned_ID" these were removed as they held no importance the the focus of this paper. 
+  
+  
+```{r}
+
+covid_cases <- covid_cases %>% 
+  mutate(month_of_diagnosis = month(episode_date,
+                  label = TRUE,
+                  abbr = FALSE))
+
+covid_cases <- covid_cases %>% mutate(year_of_diagnosis = year(episode_date))
+covid_cases2020 <- covid_cases %>% filter(year_of_diagnosis == "2020")
+covid_cases2021 <- covid_cases %>% filter(year_of_diagnosis == "2021")
+
+
+
+ggplot(data = covid_cases, mapping = aes_(x = covid_cases$month_of_diagnosis, fill = covid_cases$age_group)) + 
+                         geom_bar(postion = 'stack')
+
+#covid_cases %>% count(age_group)
+
+"This is used to get a visual representation of the age groups being infected"
+                                                                                         
+covid_cases2020 %>% ggplot(mapping = aes(x= month_of_diagnosis)) + geom_bar()
+covid_cases2021 %>% ggplot(mapping = aes(x= month_of_diagnosis)) + geom_bar()
+"This is used to see which month had the most cases, see where it lines up with lockdowns"
+
+
+#covid_cases2021 %>% ggplot(mapping = aes(x= age_group)) + geom_bar()
+
+#fatal_2020 <- covid_cases %>% 
+  #filter(year_of_diagnosis == "2020" & outcome == "FATAL") %>% 
+  #select(year_of_diagnosis, outcome)
+
+#resolved_2020 <- covid_cases %>% 
+  #filter(year_of_diagnosis == "2020" & outcome == "RESOLVED") %>% 
+  #select(year_of_diagnosis, outcome)
+
+#fatal_2021 <- covid_cases %>% 
+  #filter(year_of_diagnosis == "2021" & outcome == "FATAL") %>% 
+  #select(year_of_diagnosis, outcome)
+
+#resolved_2021 <- covid_cases %>% 
+  #filter(year_of_diagnosis == "2021" & outcome == "RESOLVED") %>% 
+  #select(year_of_diagnosis, outcome)
+
+
+
+#covid_cases %>% count(year_of_diagnosis)
+
+#covid_cases %>% count(month_of_diagnosis)
+#covid_cases %>% count(outcome)
+#covid_cases %>% count(source_of_infection)
+
+#cases_per_year <- covid_cases %>% select(year_of_diagnosis, outcome) 
+#API
+
+#knitr:: kable(table_c, 
+              #col.names = "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
+```
+  
+```{r}
+#locations <- tibble(
+  #postal = c(covid_cases$fsa)
+  #)
+
+#hopeful <- geocode(locations,
+        #postalcode = "postal",
+        #method = "osm")
+
+#cities <- revgeocode(c(43.77977
+
+#,-79.36618), output = "address") 
+
+#cities$locality
+
+```
+
+Our data is of penguins (Figure \@ref(fig:bills)).
+
+```{r bills, fig.cap="Bills of penguins", echo = FALSE}
+ggplot(penguins, aes(x = island, fill = species)) +
+  geom_bar(alpha = 0.8) +
+  scale_fill_manual(values = c("darkorange","purple","cyan4"),
+                    guide = FALSE) +
+  theme_minimal() +
+  facet_wrap(~species, ncol = 1) +
+  coord_flip()
+```
+
+Talk more about it.
+
+Also bills and their average (Figure \@ref(fig:billssssss)). (Notice how you can change the height and width so they don't take the whole page?)
+
+```{r billssssss, fig.cap="More bills of penguins", echo = FALSE, fig.width=8, fig.height=4}
+
+# This needs to be about the random data tha tI sasmpled?
+
+```
+
+Talk way more about it. 
+
+
+
+# Model
+
+\begin{equation}
+Pr(\theta | y) = \frac{Pr(y | \theta) Pr(\theta)}{Pr(y)}  (\#eq:bayes)
+\end{equation}
+
+Equation \@ref(eq:bayes) seems useful, eh?
+
+Here's a dumb example of how to use some references: In paper we run our analysis in `R` [@citeR]. We also use the `tidyverse` which was written by @thereferencecanbewhatever If we were interested in baseball data then @citeLahman could be useful. 
+
+We can use maths by including latex between dollar signs, for instance $\theta$.
+
+
+# Results
+
+# Discussion
+
+## First discussion point
+
+If my paper were 10 pages, then should be be at least 2.5 pages. The discussion is a chance to show off what you know and what you learnt from all this. 
+
+## Second discussion point
+
+## Third discussion point
+
+## Weaknesses and next steps
+
+Weaknesses and next steps should also be included.
+
+\newpage
+
+\appendix
+
+# Appendix {-}
+
+
+# Additional details
+
+
+\newpage
+
+
+# References
+
+
