@@ -69,8 +69,8 @@ fig2020 <- covid_cases2020 %>% ggplot(mapping = aes(x= month_of_diagnosis)) + ge
 
 fig2021 <- covid_cases2021 %>% ggplot(mapping = aes(x= month_of_diagnosis)) + geom_bar() + labs(x = "Months of 2021", y = "Number of COVID cases") 
 
-monthly_figs <- (fig2020 + fig2021)
-monthly_figs + plot_annotation(caption = "Figure 1: COVID-19 Cases for every month in 2020 and 2021")
+monthly_figs <- (fig2020 / fig2021)
+monthly_figs + plot_annotation(caption = "Figure 1: COVID-19 Cases for every month in 2020 and 2021", )
 ```
 ```{r tableone, echo=FALSE}
 
@@ -104,7 +104,7 @@ holiday_case
 ```
 
 
-In 2020, we can see how the number of covid cases were highest during the fall and winter months and how that trend carries onto early 2021 which should be what is expected. The number of cases tend to increase near the winter 2020 and that trend continued in until April 2021 where the cases began to continuously decrease. One thing to notice is that in both years, there are a a higher amount  of COVID cases comparatively speaking to other months. One of the possible reasons explaining this rise in cases during this time is the fact that this is around the holidays when families tend to get together. Table \@ref(tab:tableone) shows the count for COVID-19 cases that were transmitted through contact which includes close contact, household contact and community contact. For both years, we notice that the month of December had the highest number of COVID-19 cases, likely because of Christmas. Another thing to consider is that in December of 2020, there was a new and more contagious variant of the COVID-19 virus called the delta variant. Similarly, at the end of November 2021, we got the omicron variant, one that was even more contagions than the delta variant which also explains the high case counts in December of 2020 and 2021.            
+In 2020, we can see how the number of covid cases were highest during the fall and winter months and how that trend carries onto early 2021 which should be what is expected. The number of cases tend to increase near the winter 2020 and that trend continued in until April 2021 where the cases began to continuously decrease. One thing to notice is that in both years, there are a a higher amount  of COVID cases comparatively speaking to other months. One of the possible reasons explaining this rise in cases during this time is the fact that this is around the holidays when families tend to get together. Table \@ref(tab:tableone) shows the count for COVID-19 cases that were transmitted through contact which includes close contact, household contact and community contact. For both years, we notice that the month of December had the highest number of COVID-19 cases, likely because of Christmas. Another thing to consider is that in December of 2020, there was a new and more contagious variant of the COVID-19 virus called the delta variant. Similarly, at the end of November 2021, we got the omicron variant, one that was even more contagions than the delta variant which also explains the high case counts in December of 2020 and 2021. The            
 
 
 shows us  
