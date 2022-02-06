@@ -22,7 +22,6 @@ library(opendatatoronto)
 library(dplyr)
 library(lubridate)
 library(janitor)
-library(ggmap)
 library(knitr)
 library(kableExtra)
 covid_cases <- read_csv(here::here("inputs/data/covid_cases.csv"))
@@ -32,11 +31,11 @@ covid_cases <- read_csv(here::here("inputs/data/covid_cases.csv"))
 
 # Introduction
 
-On December 31, 2019 the world saw its first case of the coronavirus, officially referred to as SARS-CoV-2 or COVID-19, in Wuhan China and by January 25, 2020 Toronto had seen its first case. (cite) Ever since, the virus continues to spread in various forms like the Delta variant and the most recent being the Omicron variant. The province has taken many attempts at fighting the virus which include locking down the province and shutting down non-essential activities in hopes of limiting close contact between citizens. Even constant advancements in vaccines are not able to completely fight the virus, whether that be Pfizer, Moderna or AstraZeneca.
+On December 31, 2019 the world saw its first case of the coronavirus, officially referred to as SARS-CoV-2 or COVID-19, in Wuhan China [@citeWHO] and by January 25, 2020 Toronto had seen its first case[@citeTor].Ever since, the virus continues to spread in various forms like the Delta variant and the most recent being the Omicron variant[@citeWHOvar]. The province has taken many attempts at fighting the virus which include locking down the province and shutting down non-essential activities in hopes of limiting close contact between citizens[@citelock]. Even constant advancements in vaccines are not able to completely fight the virus, whether that be Pfizer, Moderna or AstraZeneca.
 
-With how quickly the virus is spreading, it is important that we analyze data that has been collected over the past two years and see if there are any trends and patterns that are visible that can better prepare the city for any newer variants. Using the data given to us from Open Data Toronto, we can begin to determine what factors play a role in increasing the number of cases of covid. These factors could be the time of the year or general age of the population or one can learn which source of infection is most common so that they can take the necessary actions to ensure that they remain safe. When analyzing this data it is also important to take context into account. This includes being aware of new variants of the COVID-19 virus and when vaccines were introduced. One can only obtain a better understanding of the data when context of the data is also given importance to. (add more)
+With how quickly the virus is spreading, it is important that we analyze data that has been collected over the past two years and see if there are any trends and patterns that are visible that can better prepare the city for any newer variants. Using the data given to us from Open Data Toronto, we can begin to determine what factors play a role in increasing the number of cases of covid. These factors could be the time of the year or general age of the population or one can learn which source of infection is most common so that they can take the necessary actions to ensure that they remain safe. When analyzing this data it is also important to take context into account. This includes being aware of new and more contagious variants of the COVID-19 virus and when vaccines were introduced. One can only obtain a better understanding of the data when context of the data is also given importance to. (add more)
 
-The Section \@ref(data) of this paper will consider how the time of the year affects the number of cases and try to find a pattern in the way the virus grows throughout the year. Expanding on this idea, I find that it would be interesting to compare the number of cases between years to see if there is a cyclical pattern that the virus has, regardless of human activity, or if any sort of human activity plays a role in suppressing or raising the number of COVID-19 cases. Along with this, I want to look at if there is a certain age group that is more prone to catching this virus and if so, what is the most probable source of their infection. I feel this important because this information can inform readers about the virus and can help them make the best decision to ensure their safety. 
+Section \@ref(data) of this paper will consider how the time of the year affects the number of cases and try to find a pattern in the way the virus grows throughout the year. Expanding on this idea, I find that it would be interesting to compare the number of cases between years to see if there is a cyclical pattern that the virus has, regardless of human activity, or if any sort of human activity plays a role in suppressing or raising the number of COVID-19 cases. Along with this, I want to look at if there is a certain age group that is more prone to catching this virus and if so, what is the most probable source of their infection. I feel this important because this information can inform readers about the virus and can help them make the best decision to ensure their safety. 
 
 Finally Section \@ref(discussion) will mention the ethical considerations and biases along with some strengths and weaknesses of the dataset that are important to take note of.
 
@@ -48,11 +47,11 @@ covid_cases <- clean_names(covid_cases)
 #covid_cases <- subset(covid_cases, select = -c(1,2,7,8))
 ```
 
-  The statistical programming language used to work with the data in this paper is R (@citeR) along with packages like tidyverse @citytidyverse, knitr @citeknitr. The "COVID-19 Cases in Toronto" dataset was obtained from Open Data Toronto which houses a broad number of datasets. This data set was published by Toronto Public Health and for this paper, this dataset was officially imported from the opendatatoronto package in R.
+  The statistical programming language used to work with the data in this paper is R [@citeR] along with packages like tidyverse [@citytidyverse], knitr [@citeknitr]. The "COVID-19 Cases in Toronto" dataset was obtained from Open Data Toronto portal which houses a broad number of datasets. This data set was published by Toronto Public Health and for this paper, this dataset was officially imported from the opendatatoronto package [@citeportal] in R.
 
-  This data consists of confirmed and probable reported (to Toronto Public Health) COVID-19 cases among Toronto residents with demographic, geographical and epidemiological variables.(citation) The data itself is claimed to have been extracted from the provincial Case and Contact Management System. It is important to note that as the pandemic is happening, this dataset continues to get updated therefore results of this dataset are based off data up till January 24,2022. The dataset consists of 272017 observations of 18 variables however, since the first two variables were simply just "id" and "Assigned_ID" these were removed as they held no importance the the focus of this paper.
+  This data consists of confirmed and probable reported (to Toronto Public Health) COVID-19 cases among Toronto residents with demographic, geographical and epidemiological variables [@citeportal]. The data itself is claimed to have been extracted from the provincial Case and Contact Management System. It is important to note that as the pandemic is happening, this dataset continues to get updated therefore results of this dataset are based off data up till January 24,2022. The dataset consists of 272017 observations of 18 variables however, since the first two variables were simply just "id" and "Assigned_ID" these were removed as they held no importance for the focus of this paper.
   
-COVID-19, like many other viruses thrives in colder drier climates and Figure 1 displays the number of cases for every month in 2020 and 2021. Using the tools from the dplyr package [@citedplyr], two new variables named "month_of_ diagnosis" and "year_of_diagnosis" were mutated from the original variable "episode_date" which pertained to the date that the case was confirmed. The package lubridate [@citelubridate] was used to work with the dates and create the two new variables. The following two charts were created by ggplot2 [@citeggplot] and are formatted the package  patchwork [@citepatchwork]. Figure 1 shows the number of covid cases for both 2020, 2021 and 2022.   
+COVID-19, like many other viruses thrives in colder drier conditions. Along with this, in colder seasons humans are more likely to spend times indoors which makes the chances of catching viruses greater[@citecoldvirus]. Figure 1 displays the number of cases for every month in 2020 and 2021 while showing the first month of 2022 as well. Using the tools from the dplyr package [@citedplyr], two new variables named "month_of_ diagnosis" and "year_of_diagnosis" were mutated from the original variable "episode_date" which pertained to the date that the case was confirmed. The package lubridate [@citelubridate] was used to work with the dates and create the two new variables. The following two charts were created by ggplot2 [@citeggplot] and are formatted the package patchwork [@citepatchwork].   
   
   
 ```{r month, echo=FALSE}
@@ -76,16 +75,13 @@ fig2021 <- covid_cases2021 %>% ggplot(mapping = aes(x= month_of_diagnosis)) + ge
 
 fig2022 <- covid_cases2022 %>% ggplot(mapping = aes(x= month_of_diagnosis)) + geom_bar() + labs(x = "Months of 2022", y = "Number of COVID cases")
 
-monthly_figs <- ((fig2020 + fig2021) / fig2022)
+monthly_figs <- ((fig2020+fig2021) / fig2022)
 monthly_figs + plot_annotation(caption = "Figure 1: COVID-19 Cases for every month in 2020 and 2021", theme = theme(plot.caption.position = "plot", plot.caption = element_text(hjust = 0.1)))
 
 ```
-From Figure 1, the colder months in the year tend to have the most number of cases where as the summer months have a significantly lower number of cases. In 2020, we can see how the number of covid cases were highest during the fall and winter months and how that trend carries onto early 2021 which should be what is expected. The number of cases increased near the winter 2020 and that trend continued in until April 2021 where the cases began to continuously decrease. However, in both years there is a spike of cases in December. One of the possible reasons explaining this rise in cases during this time is the fact that this is around the holidays when families tend to get together. Table 1 shows the count for COVID-19 cases that were transmitted through contact which includes close contact, household contact and community contact. Note that household contact refers to a case that was acquired from household contact with a family member or roommate and close contact refers cases acquired from close contact with a confirmed or probable case. Finally, community contact refers to cases who have not traveled outside of Ontario and were not in close contact with a COVID-19 case but still managed to get the virus.
-
-
+From Figure 1, the colder months in the year tend to have the most number of cases where as the summer months have a significantly lower number of cases. In 2020, we can see how the number of covid cases were highest during the fall and winter months and how that trend carries onto early 2021 which should be what is expected. The number of cases increased near the winter 2020 and that trend continued in until April 2021 where the cases began to continuously decrease. In a similar manner, the spike of cases in December of 2021 seems to be continuing in January of 2022 as well. In both years, there is a spike of cases in December and one of the possible reasons explaining this rise in cases during this time is the fact that this is around the holidays when families tend to get together. Table 1 shows the count for COVID-19 cases that were transmitted through contact which includes close contact, household contact and community contact. Note that household contact refers to a case that was acquired from contact with a family member or roommate and close contact refers cases acquired from close contact with a confirmed or probable case. Finally, community contact refers to cases who have not traveled outside of Ontario and were not in close contact with a COVID-19 case but still managed to get the virus. This table was made from teh knitr package [@citeknitr].
 
 ```{r tableone, echo=FALSE, fig.width= 15}
-
 
 S <- count(covid_cases2020 %>% 
   filter(month_of_diagnosis == "Sep", source_of_infection == "Close Contact" | source_of_infection == "Community" | source_of_infection == "Household Contact"))
@@ -99,7 +95,6 @@ N <- count(covid_cases2020 %>%
 D <- count(covid_cases2020 %>% 
   filter(month_of_diagnosis == "Dec", source_of_infection == "Close Contact" | source_of_infection == "Community" | source_of_infection == "Household Contact"))
 
-
 S1 <- count(covid_cases2021 %>% 
   filter(month_of_diagnosis == "Sep", source_of_infection == "Close Contact" | source_of_infection == "Community" | source_of_infection == "Household Contact"))
 
@@ -112,20 +107,27 @@ N1 <- count(covid_cases2021 %>%
 D1 <- count(covid_cases2021 %>% 
   filter(month_of_diagnosis == "Dec", source_of_infection == "Close Contact" | source_of_infection == "Community" | source_of_infection == "Household Contact"))
 
-September <- c(3012,2806)
-October <- c(2413,1429)
-November <- c(5029, 1932)
-December <- c(9047, 3975)
+Jan2021 <- count(covid_cases2021 %>% 
+  filter(month_of_diagnosis == "Jan", source_of_infection == "Close Contact" | source_of_infection == "Community" | source_of_infection == "Household Contact"))
 
-holiday_case <- data.frame(September, October, November, December)
-rownames(holiday_case) <- c("2020","2021")
+Jan2022 <- count(covid_cases2022 %>% 
+  filter(month_of_diagnosis == "Jan", source_of_infection == "Close Contact" | source_of_infection == "Community" | source_of_infection == "Household Contact"))
+
+September <- c(3012,2806, "N/A")
+October <- c(2413,1429, "N/A")
+November <- c(5029, 1932, "N/A")
+December <- c(9047, 3975, "N/A")
+January <- c("N/A", 12055, 992)
+
+holiday_case <- data.frame(September, October, November, December, January)
+rownames(holiday_case) <- c("2020","2021", "2022")
 
 holiday_case<- knitr::kable(holiday_case, caption = "Number of covid cases from contact during holiday months") %>% kable_styling(latex_options = "HOLD_position")
 holiday_case
 ```
 
 
-For both years, we notice that the month of December had the highest number of COVID-19 cases, likely because of Christmas where families prefer to spend time with each other. Looking at Table 1, December is the month that yields the highest number of covid cases through contact. Another thing to consider is that in December of 2020, there was a new and more contagious variant of the COVID-19 virus called the delta variant. Similarly, at the end of November 2021, we got the omicron variant, one that was even more contagions than the delta variant. Both of these newer and more contagious variants of COVID-19 play a large role in the spikes of cases for the Decembers of both years. Something to note is the increasing number of covid cases in the months leading up to December 2020 isn't present when looking at those same months in 2021. This is likely due to the increased number of the population that the vaccine had been administered to by then. A decent portion of the population was not able to take the vaccine with Ontario's "Phase One" plan which took place from December of 2020 to March of 2021 prioritized high-risk populations. This included health care workers, seniors and adults in First Nations, Métis and Inuit population. By April of 2021, as part of Ontario's "Phase 2," vaccines had begun to be distributed based off "hot spots" and finally eligible to everyone as a part of their "Phase 3" which began in July of 2021. By October of 2021, 2.29 million citizens of Toronto had received their second dose where as in June of 2021, only 228 407 residents had received their second dose. (citation:https://www.toronto.ca/home/covid-19/covid-19-pandemic-data/covid-19-vaccine-data/). However, the vaccines that people had taken until December of 2021 did not necessarily protect them from the omicron variant. For example, the Pfizer vaccine was 80% effective against the delta variant which dropped to 30% for the omicron variant. (https://www.healthline.com/health-news/by-the-numbers-covid-19-vaccines-and-omicron#2-dose-Pfizer-vaccine-vs.-Omicron). This is likely to be another reason that December of 2021 had the largest amount of cases for any month.  
+For both years, we notice that the month of December had the highest number of COVID-19 cases, likely because of Christmas where families prefer to spend time with each other as stated earlier. This finding is confirmed by Table 1 because the most cases spread through contact occured in December. Another thing to consider is that in December of 2020, there was a new and more contagious variant of the COVID-19 virus called the delta variant. Similarly, at the end of November 2021, we got the omicron variant, one that was even more contagions than the delta variant. Both of these newer and more contagious variants of COVID-19 play a large role in the spikes of cases for the Decembers of both years. Something to note is the increasing number of covid cases in the months leading up to December 2020 isn't present when looking at those same months in 2021. This is likely due to the increased number of the population that the vaccine had been administered to by then. A decent portion of the population was not able to take the vaccine with Ontario's "Phase One" plan which took place from December of 2020 to March of 2021 prioritized high-risk populations. This included health care workers, seniors and adults in First Nations, Métis and Inuit population. By April of 2021, as part of Ontario's "Phase 2," vaccines had begun to be distributed based off "hot spots" and finally eligible to everyone as a part of their "Phase 3" which began in July of 2021. By October of 2021, 2.29 million citizens of Toronto had received their second dose where as in June of 2021, only 228 407 residents had received their second dose. (citation:https://www.toronto.ca/home/covid-19/covid-19-pandemic-data/covid-19-vaccine-data/). However, the vaccines that people had taken until December of 2021 did not necessarily protect them from the omicron variant. For example, the Pfizer vaccine was 80% effective against the delta variant which dropped to 30% for the omicron variant. (https://www.healthline.com/health-news/by-the-numbers-covid-19-vaccines-and-omicron#2-dose-Pfizer-vaccine-vs.-Omicron). This is likely to be another reason that December of 2021 had the largest amount of cases for any month.  
 
 
 Another variable this dataset gave us was the age group that every case fell under. These age groups ranged from "19 and younger" to "90 and older." The following figure shows the number of cases for every age group.    
