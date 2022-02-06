@@ -48,7 +48,7 @@ covid_cases <- clean_names(covid_cases)
 #covid_cases <- subset(covid_cases, select = -c(1,2,7,8))
 ```
 
-  The statistical programming language used to work with the data in this paper is R (@citeR) along with packages like tidyverse [@citytidyverse], knitr [@citeknitr]. The "COVID-19 Cases in Toronto" dataset was obtained from Open Data Toronto which houses a broad number of datasets. This data set was published by Toronto Public Health and for this paper, this dataset was officially imported from the opendatatoronto package in R.
+  The statistical programming language used to work with the data in this paper is R (@citeR) along with packages like tidyverse @citytidyverse, knitr @citeknitr. The "COVID-19 Cases in Toronto" dataset was obtained from Open Data Toronto which houses a broad number of datasets. This data set was published by Toronto Public Health and for this paper, this dataset was officially imported from the opendatatoronto package in R.
 
   This data consists of confirmed and probable reported (to Toronto Public Health) COVID-19 cases among Toronto residents with demographic, geographical and epidemiological variables.(citation) The data itself is claimed to have been extracted from the provincial Case and Contact Management System. It is important to note that as the pandemic is happening, this dataset continues to get updated therefore results of this dataset are based off data up till January 24,2022. The dataset consists of 272017 observations of 18 variables however, since the first two variables were simply just "id" and "Assigned_ID" these were removed as they held no importance the the focus of this paper.
   
