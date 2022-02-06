@@ -3,10 +3,9 @@ title: "My title"
 subtitle: "My subtitle if needed"
 author: 
   - Arsh Lakhanpal
-thanks: "Code and data are available at: 
-https://github.com/lakhan99/starter_folder-main"
+thanks: "Code and data are available at: https://github.com/lakhan99/starter_folder-main"
 date: "`r format(Sys.time(), '%d %B %Y')`"
-abstract: "The city of Toronto has been able to collect data pertraining to COVID-19 cases demographic and geographic variables since January 2020. Second sentence. Third sentence. Fourth sentence."
+abstract: "COVID-19 has had fatal effects on the health of not only individuals in Toronto but the entire world. This is why it is important that we study this and learn more about the virus in order to be better prepared to fight it. The city of Toronto has been able to collect data pertraining to COVID-19 cases demographic and geographic variables since January 2020. From our study, we were able to show how seasonal factors affect the number of covid cases and learn about how different age groups may affect this."
 output:
   bookdown::pdf_document2
 toc: FALSE
@@ -33,12 +32,13 @@ covid_cases <- read_csv(here::here("inputs/data/covid_cases.csv"))
 
 # Introduction
 
-On December 31, 2019 the world saw its first case of the coronavirus, officially referred to as SARS-CoV-2 or COVID-19, in Wuhan China and by January 25, 2020 Toronto had seen its first case. Ever since, the virus continues to spread in various forms like the Delta variant and the most recent being the Omicron variant. The province has taken many attempts at fighting the virus which include locking down the province and shutting down non-essential activities in hopes of limiting close contact between citizens. Even constant advancements in vaccines are not able to completely fight the virus, whether that be Pfizer, Moderna or AstraZeneca.
+On December 31, 2019 the world saw its first case of the coronavirus, officially referred to as SARS-CoV-2 or COVID-19, in Wuhan China and by January 25, 2020 Toronto had seen its first case. (cite) Ever since, the virus continues to spread in various forms like the Delta variant and the most recent being the Omicron variant. The province has taken many attempts at fighting the virus which include locking down the province and shutting down non-essential activities in hopes of limiting close contact between citizens. Even constant advancements in vaccines are not able to completely fight the virus, whether that be Pfizer, Moderna or AstraZeneca.
 
-With how quickly the virus is spreading, it is important that we analyze data that has been collected over the past two years and see if there are any trends and patterns that are visible that can better prepare the city for any newer variants. Using the data given to us from Open Data Toronto, we can begin to determine what factors play a role in increasing the number of cases of covid. These factors could be the time of the year or general age of the population or one can learn which source of infection is most common so that they can take the necessary actions to ensure that they remain safe. When analyzing this data it is also important to take context into account. This includes things like when new variants came to light, when vaccines were introduced and why one could be noticing a certain trend at a certain time of the month. One can only obtain a better understanding of the data when context of the data is also given importance to. (add more)    
+With how quickly the virus is spreading, it is important that we analyze data that has been collected over the past two years and see if there are any trends and patterns that are visible that can better prepare the city for any newer variants. Using the data given to us from Open Data Toronto, we can begin to determine what factors play a role in increasing the number of cases of covid. These factors could be the time of the year or general age of the population or one can learn which source of infection is most common so that they can take the necessary actions to ensure that they remain safe. When analyzing this data it is also important to take context into account. This includes being aware of new variants of the COVID-19 virus and when vaccines were introduced. One can only obtain a better understanding of the data when context of the data is also given importance to. (add more)
 
-You can and should cross-reference sections and sub-sections. For instance, Section \@ref(data). R Markdown automatically makes the sections lower case and adds a dash to spaces to generate labels, for instance, Section \@ref(first-discussion-point). 
+The Section \@ref(data) of this paper will consider how the time of the year affects the number of cases and try to find a pattern in the way the virus grows throughout the year. Expanding on this idea, I find that it would be interesting to compare the number of cases between years to see if there is a cyclical pattern that the virus has, regardless of human activity, or if any sort of human activity plays a role in suppressing or raising the number of COVID-19 cases. Along with this, I want to look at if there is a certain age group that is more prone to catching this virus and if so, what is the most probable source of their infection. I feel this important because this information can inform readers about the virus and can help them make the best decision to ensure their safety. 
 
+Finally Section \@ref(discussion) will mention the ethical considerations and biases along with some strengths and weaknesses of the dataset that are important to take note of.
 
 
 # Data
@@ -48,11 +48,11 @@ covid_cases <- clean_names(covid_cases)
 #covid_cases <- subset(covid_cases, select = -c(1,2,7,8))
 ```
 
-  The statistical programming language used to work with the data in this paper is R (add citation) along with packages like tidyverse, knitr. The "COVID-19 Cases in Toronto" dataset was obtained from Open Data Toronto which houses a broad number of datasets. This data set was published by Toronto Public Health and for this paper, this dataset was officially imported from the opendatatoronto package in R.
+  The statistical programming language used to work with the data in this paper is R (@citeR) along with packages like tidyverse [@citytidyverse], knitr [@citeknitr]. The "COVID-19 Cases in Toronto" dataset was obtained from Open Data Toronto which houses a broad number of datasets. This data set was published by Toronto Public Health and for this paper, this dataset was officially imported from the opendatatoronto package in R.
 
   This data consists of confirmed and probable reported (to Toronto Public Health) COVID-19 cases among Toronto residents with demographic, geographical and epidemiological variables.(citation) The data itself is claimed to have been extracted from the provincial Case and Contact Management System. It is important to note that as the pandemic is happening, this dataset continues to get updated therefore results of this dataset are based off data up till January 24,2022. The dataset consists of 272017 observations of 18 variables however, since the first two variables were simply just "id" and "Assigned_ID" these were removed as they held no importance the the focus of this paper.
   
-COVID-19, like many other viruses thrives in colder drier climates and Figure 1 displays the number of cases for every month in 2020 and 2021. Using the tools from the dplyr package, two new variables named "month_of_ diagnosis" and "year_of_diagnosis" were mutated from the original variable "episode_date" which pertained to the date that the case was confirmed. The package lubridate was used to work with the dates and create the two new variables @citelubridate The following two charts show the number of covid cases for both 2020 and 2021 as those are the only two complete years that we have have to live with the virus. @citeplan    
+COVID-19, like many other viruses thrives in colder drier climates and Figure 1 displays the number of cases for every month in 2020 and 2021. Using the tools from the dplyr package [@citedplyr], two new variables named "month_of_ diagnosis" and "year_of_diagnosis" were mutated from the original variable "episode_date" which pertained to the date that the case was confirmed. The package lubridate [@citelubridate] was used to work with the dates and create the two new variables. The following two charts were created by ggplot2 [@citeggplot] and are formatted the package  patchwork [@citepatchwork]. Figure 1 shows the number of covid cases for both 2020, 2021 and 2022.   
   
   
 ```{r month, echo=FALSE}
@@ -63,8 +63,10 @@ covid_cases <- covid_cases %>%
                   abbr = TRUE))
 
 covid_cases <- covid_cases %>% mutate(year_of_diagnosis = year(episode_date))
+
 covid_cases2020 <- covid_cases %>% filter(year_of_diagnosis == "2020")
 covid_cases2021 <- covid_cases %>% filter(year_of_diagnosis == "2021")
+covid_cases2022 <- covid_cases %>% filter(year_of_diagnosis == "2022")
 
 
 
@@ -72,7 +74,9 @@ fig2020 <- covid_cases2020 %>% ggplot(mapping = aes(x= month_of_diagnosis)) + ge
 
 fig2021 <- covid_cases2021 %>% ggplot(mapping = aes(x= month_of_diagnosis)) + geom_bar() + labs(x = "Months of 2021", y = "Number of COVID cases") 
 
-monthly_figs <- (fig2020 / fig2021)
+fig2022 <- covid_cases2022 %>% ggplot(mapping = aes(x= month_of_diagnosis)) + geom_bar() + labs(x = "Months of 2022", y = "Number of COVID cases")
+
+monthly_figs <- ((fig2020 + fig2021) / fig2022)
 monthly_figs + plot_annotation(caption = "Figure 1: COVID-19 Cases for every month in 2020 and 2021", theme = theme(plot.caption.position = "plot", plot.caption = element_text(hjust = 0.1)))
 
 ```
@@ -178,20 +182,6 @@ From Figure 5, it is evident that the younger residents, more than any other age
 #younger age groups tend to give no information about how they contracted the virus 
 
 ```
-# Discussion 
-
-This dataset is made up of data collected from individuals which means that there is likely to be some ethical biases. One of the largest concerns with this dataset is that it only accounts for the "confirmed" and "probable cases." This leaves out many categories of cases that likely contain a lot of individuals:
-
-* The individual is unknowingly living with COVID
-    + Since the virus does affect every individual differently, there are many cases where the individual isn't even aware of the fact that they have the virus and continue to live with it until it naturally goes away. 
-
-* The individual knows they have the virus but refuses to report it 
-
-* The individual feels sick but mistake it for the common cold/other virus.
-
-From a statistical point of view, there can be some confusion with the "source of infection" observation because there is a lot of overlap between the source being "close contact" and "household contact" due to the fact that an individual can fall under both. This lack of clear distinction between categories can introduce bias into the dataset because out data does not accurately display what should be displayed. The fact that this dataset is confined to many binary responses with areas to fill in addresses and dates means that there is missed opportunity for respondents to give more insight on their situation. Grouping stories regarding the source of infection into categories like "community" and "outbreaks" are although time efficient also lose out important context to every individuals story. (reword) The high proportionality of younger respondents seem who were not able to provide any information about their reported/probable case of COVID-19 is a weakness in this dataset since it isn't able to give any information about how the virus was contracted. This type of information is important for the government and even someone looking at the dataset because it helps them be informed of the most probably source of the infection.    
-
-
 #gender reason as well? 
 #overlap with categories 
   
@@ -215,35 +205,25 @@ From a statistical point of view, there can be some confusion with the "source o
 ```
 
 
-
-Talk more about it.
-
-Also bills and their average (Figure \@ref(fig:billssssss)). (Notice how you can change the height and width so they don't take the whole page?)
-
-```{r billssssss, fig.cap="More bills of penguins", echo = FALSE, fig.width=8, fig.height=4}
-
-# This needs to be about the random data tha tI sasmpled?
-
-```
-
- 
-
-
-
-
-
-
 Here's a dumb example of how to use some references: In paper we run our analysis in `R` [@citeR]. We also use the `tidyverse` which was written by @thereferencecanbewhatever If we were interested in baseball data then @citeLahman could be useful. 
 
 
 
-# Results
 
 # Discussion
 
-## First discussion point
+This dataset is made up of data collected from individuals which means that there is likely to be some ethical biases. One of the largest concerns with this dataset is that it only accounts for the "confirmed" and "probable cases." This leaves out many categories of cases that likely contain a lot of individuals:
 
-If my paper were 10 pages, then should be be at least 2.5 pages. The discussion is a chance to show off what you know and what you learnt from all this. 
+* The individual is unknowingly living with COVID
+    + Since the virus does affect every individual differently, there are many cases where the individual isn't even aware of the fact that they have the virus and continue to live with it until it naturally goes away. 
+
+* The individual knows they have the virus but refuses to report it 
+
+* The individual feels sick but mistake it for the common cold/other virus.
+
+From a statistical point of view, there can be some confusion with the "source of infection" observation because there is a lot of overlap between the source being "close contact" and "household contact" due to the fact that an individual can fall under both. This lack of clear distinction between categories can introduce bias into the dataset because out data does not accurately display what should be displayed. The fact that this dataset is confined to many binary responses with areas to fill in addresses and dates means that there is missed opportunity for respondents to give more insight on their situation. Grouping stories regarding the source of infection into categories like "community" and "outbreaks" are although time efficient also lose out important context to every individuals story. (reword) The high proportionality of younger respondents seem who were not able to provide any information about their reported/probable case of COVID-19 is a weakness in this dataset since it isn't able to give any information about how the virus was contracted. This type of information is important for the government and even someone looking at the dataset because it helps them be informed of the most probably source of the infection. 
+
+
 
 ## Weaknesses and next steps
 
