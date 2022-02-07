@@ -1,11 +1,11 @@
 ---
-title: "My title"
-subtitle: "My subtitle if needed"
+title: "Affect of COVID-19 on the lives of Toronontians"
+subtitle: 
 author: 
   - Arsh Lakhanpal
 thanks: "Code and data are available at: https://github.com/lakhan99/starter_folder-main"
 date: "`r format(Sys.time(), '%d %B %Y')`"
-abstract: "COVID-19 has had fatal effects on the health of not only individuals in Toronto but the entire world. This is why it is important that we study this and learn more about the virus in order to be better prepared to fight it. The city of Toronto has been able to collect data pertraining to COVID-19 cases demographic and geographic variables since January 2020. From our study, we were able to show how seasonal factors affect the number of covid cases and learn about how different age groups may affect this."
+abstract: "COVID-19 has had fatal effects on the health of not only individuals in Toronto but the entire world. This is why it is important that we study this and learn more about the virus in order to be better prepared to fight it. The city of Toronto has been able to collect data pertaining to COVID-19 cases with demographic and geographic variables since January 2020. From our study, we were able to show how seasonal factors affect the number of covid cases and learn about how different age groups are affected by the virus."
 output:
   bookdown::pdf_document2
 toc: FALSE
@@ -13,11 +13,13 @@ bibliography: references.bib
 ---
 
 ```{r setup, include=FALSE}
+#Calling all packages used and importing the data set into this document.
+
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 
 library(patchwork)
 library(tidyverse)
-library(palmerpenguins)
 library(opendatatoronto)
 library(dplyr)
 library(lubridate)
@@ -31,11 +33,11 @@ covid_cases <- read_csv(here::here("inputs/data/covid_cases.csv"))
 
 # Introduction
 
-On December 31, 2019 the world saw its first case of the coronavirus, officially referred to as SARS-CoV-2 or COVID-19, in Wuhan China [@citeWHO] and by January 25, 2020 Toronto had seen its first case[@citeTor].Ever since, the virus continues to spread in various forms like the Delta variant and the most recent being the Omicron variant[@citeWHOvar]. The province has taken many attempts at fighting the virus which include locking down the province and shutting down non-essential activities in hopes of limiting close contact between citizens[@citelock]. Even constant advancements in vaccines are not able to completely fight the virus, whether that be Pfizer, Moderna or AstraZeneca.
+On December 31, 2019 the world saw its first case of the coronavirus, officially referred to as SARS-CoV-2 or COVID-19, in Wuhan China [@citeWHO] and by January 25, 2020 Toronto had seen its first case as well [@citeTor].Ever since, the virus continues to spread in various forms like the Delta variant and the most recent being the Omicron variant [@citeWHOvar]. The province has taken many attempts at fighting the virus which include locking down the province and shutting down non-essential activities in hopes of limiting close contact between citizens [@citelock]. Desipite this and constant advancements in vaccines, we are not able to completely fight the virus, whether that vaccine be Pfizer, Moderna or AstraZeneca.
 
-With how quickly the virus is spreading, it is important that we analyze data that has been collected over the past two years and see if there are any trends and patterns that are visible that can better prepare the city for any newer variants. Using the data given to us from Open Data Toronto, we can begin to determine what factors play a role in increasing the number of cases of covid. These factors could be the time of the year or general age of the population or one can learn which source of infection is most common so that they can take the necessary actions to ensure that they remain safe. When analyzing this data it is also important to take context into account. This includes being aware of new and more contagious variants of the COVID-19 virus and when vaccines were introduced. One can only obtain a better understanding of the data when context of the data is also given importance to. (add more)
+With how quickly the virus is spreading, it is important that we analyze data that has been collected over the past two years and see if there are any trends and patterns that are visible that can better prepare the city for any new variants. Using the data given to us from Open Data Toronto [@citeportal], we can begin to determine what factors play a role in increasing the number of cases of covid. These factors could be the time of the year or whether or not a new variant has been introduced. It also takes the age of the population into consideration and determines what the most common source of infection is.When analyzing this data it is also important to take context into account. This includes being aware of new and more contagious variants of the COVID-19 virus and monitoring how vaccines could be affecting the numbers that are being observed. One can only obtain a better understanding of the data when the context of the data is also given equal importance.
 
-Section \@ref(data) of this paper will consider how the time of the year affects the number of cases and try to find a pattern in the way the virus grows throughout the year. Expanding on this idea, I find that it would be interesting to compare the number of cases between years to see if there is a cyclical pattern that the virus has, regardless of human activity, or if any sort of human activity plays a role in suppressing or raising the number of COVID-19 cases. Along with this, I want to look at if there is a certain age group that is more prone to catching this virus and if so, what is the most probable source of their infection. I feel this important because this information can inform readers about the virus and can help them make the best decision to ensure their safety. 
+Section \@ref(data) of this paper will consider how the time of the year affects the number of cases and tries to find a pattern in the way the virus grows throughout the year. Expanding on this idea, I find that it would be interesting to compare the number of cases between years to see if there is a cyclical pattern that the virus has, regardless of human activity, or if any sort of human activity plays a role in suppressing or raising the number of COVID-19 cases. Along with this, I want to look at if there is a certain age group that is more prone to catching this virus and if so, what is the most probable source of their infection. I feel this is important because this information can inform readers about the virus and can help them make the best decision to ensure their safety. 
 
 Finally Section \@ref(discussion) will mention the ethical considerations and biases along with some strengths and weaknesses of the dataset that are important to take note of.
 
@@ -43,18 +45,20 @@ Finally Section \@ref(discussion) will mention the ethical considerations and bi
 # Data
 
 ```{r, echo=FALSE}
+#cleaning the data
 covid_cases <- clean_names(covid_cases)
-#covid_cases <- subset(covid_cases, select = -c(1,2,7,8))
+covid_cases <- subset(covid_cases, select = -c(1,2,3,5,6,8,10,11,12,13,14,15,16,17,18))
+
 ```
 
-  The statistical programming language used to work with the data in this paper is R [@citeR] along with packages like tidyverse [@citytidyverse], knitr [@citeknitr]. The "COVID-19 Cases in Toronto" dataset was obtained from Open Data Toronto portal which houses a broad number of datasets. This data set was published by Toronto Public Health and for this paper, this dataset was officially imported from the opendatatoronto package [@citeportal] in R.
+  The statistical programming language used to work with the data in this paper is R [@citeR] with the help of packages within R like tidyverse [@citytidyverse] and knitr [@citeknitr]. The "COVID-19 Cases in Toronto" dataset was obtained from the Open Data Toronto portal which houses a broad number of datasets. This data set was published by Toronto Public Health and for this paper, this dataset was officially imported from the opendatatoronto package [@citeportal] in R. Once imported the names of the observations for this dataset were cleaned by using the tools provided in the Janitor package [@citeJanitor].
 
-  This data consists of confirmed and probable reported (to Toronto Public Health) COVID-19 cases among Toronto residents with demographic, geographical and epidemiological variables [@citeportal]. The data itself is claimed to have been extracted from the provincial Case and Contact Management System. It is important to note that as the pandemic is happening, this dataset continues to get updated therefore results of this dataset are based off data up till January 24,2022. The dataset consists of 272017 observations of 18 variables however, since the first two variables were simply just "id" and "Assigned_ID" these were removed as they held no importance for the focus of this paper.
+  This data consists of confirmed and probable reported (to Toronto Public Health) COVID-19 cases among Toronto residents with demographic, geographical and epidemiological variables [@citedata]. The data itself is claimed to have been extracted from the provincial Case and Contact Management System. It is important to note that as the pandemic is happening, this dataset continues to get updated therefore results of this dataset are based off data up till February 6,2022. The dataset consists of 277473 observations of 18 variables however, since the first two variables were simply just "id" and "Assigned_ID" these were removed as they held no importance for the focus of this paper. There were a few other variables which were not important for what is being studied and so they were also removed using tools from the dplyr package [@citedplyr]
   
-COVID-19, like many other viruses thrives in colder drier conditions. Along with this, in colder seasons humans are more likely to spend times indoors which makes the chances of catching viruses greater[@citecoldvirus]. Figure 1 displays the number of cases for every month in 2020 and 2021 while showing the first month of 2022 as well. Using the tools from the dplyr package [@citedplyr], two new variables named "month_of_ diagnosis" and "year_of_diagnosis" were mutated from the original variable "episode_date" which pertained to the date that the case was confirmed. The package lubridate [@citelubridate] was used to work with the dates and create the two new variables. The following two charts were created by ggplot2 [@citeggplot] and are formatted the package patchwork [@citepatchwork].   
-  
-  
+COVID-19, like many other viruses, thrives in colder,drier conditions. Along with this, in colder seasons humans are more likely to spend time indoors which makes the chances of catching viruses greater [@citecoldvirus]. Figure 1 displays the number of cases for every month in 2020 and 2021. Using the tools from the dplyr package [@citedplyr], two new variables named "month_of_ diagnosis" and "year_of_diagnosis" were mutated from the original variable "episode_date" which pertained to the date that the case was acquired. The package lubridate [@citelubridate] was used to work with the dates and create the two new variables. The following two charts were created by ggplot2 [@citeggplot] and are formatted by the package patchwork [@citepatchwork].
+
 ```{r month, echo=FALSE}
+#Making new variables to use for our analysis and making Figure 1 which are bar charts for number of covid cases for every month for 2021 and 2022.
 
 covid_cases <- covid_cases %>% 
   mutate(month_of_diagnosis = month(episode_date,
@@ -68,20 +72,22 @@ covid_cases2021 <- covid_cases %>% filter(year_of_diagnosis == "2021")
 covid_cases2022 <- covid_cases %>% filter(year_of_diagnosis == "2022")
 
 
-
 fig2020 <- covid_cases2020 %>% ggplot(mapping = aes(x= month_of_diagnosis)) + geom_bar() + labs(x = "Month of 2020", y = "Number of COVID cases")
 
 fig2021 <- covid_cases2021 %>% ggplot(mapping = aes(x= month_of_diagnosis)) + geom_bar() + labs(x = "Months of 2021", y = "Number of COVID cases") 
 
-fig2022 <- covid_cases2022 %>% ggplot(mapping = aes(x= month_of_diagnosis)) + geom_bar() + labs(x = "Months of 2022", y = "Number of COVID cases")
 
-monthly_figs <- ((fig2020+fig2021) / fig2022)
+monthly_figs <- (fig2020/fig2021)
 monthly_figs + plot_annotation(caption = "Figure 1: COVID-19 Cases for every month in 2020 and 2021", theme = theme(plot.caption.position = "plot", plot.caption = element_text(hjust = 0.1)))
 
+#covid_cases2022 %>% count(year_of_diagnosis=="2022")
+
 ```
-From Figure 1, the colder months in the year tend to have the most number of cases where as the summer months have a significantly lower number of cases. In 2020, we can see how the number of covid cases were highest during the fall and winter months and how that trend carries onto early 2021 which should be what is expected. The number of cases increased near the winter 2020 and that trend continued in until April 2021 where the cases began to continuously decrease. In a similar manner, the spike of cases in December of 2021 seems to be continuing in January of 2022 as well. In both years, there is a spike of cases in December and one of the possible reasons explaining this rise in cases during this time is the fact that this is around the holidays when families tend to get together. Table 1 shows the count for COVID-19 cases that were transmitted through contact which includes close contact, household contact and community contact. Note that household contact refers to a case that was acquired from contact with a family member or roommate and close contact refers cases acquired from close contact with a confirmed or probable case. Finally, community contact refers to cases who have not traveled outside of Ontario and were not in close contact with a COVID-19 case but still managed to get the virus. This table was made from teh knitr package [@citeknitr].
+From Figure 1, the colder months in the year tend to have the most number of cases whereas the summer months have a significantly lower number of cases. In 2020, we can see how the number of covid cases were highest during the fall and winter months and how that trend carries into early 2021 which should be what is expected due to the colder climate [@citecoldvirus]. The number of cases increased near the winter 2020 and that trend continued until April 2021 where the cases began to continuously decrease. In a similar manner, the spike of cases in December of 2021 seems to be continuing in January of 2022 as well as January of 2022 reports more than 30 000 cases. In both years, there are a spike of cases in December and one of the possible reasons explaining this rise in cases during this time is the fact that this is around the holidays when families tend to get together. Table 1 shows the count for COVID-19 cases that were transmitted through contact which includes close contact, household contact and community contact. Note that household contact refers to a case that was acquired from contact with a family member or roommate and close contact refers to cases acquired from close contact with a confirmed or probable case. Finally, community contact refers to cases who have not traveled outside of Ontario and were not in close contact with a COVID-19 case but still managed to get the virus. This table was made from the knitr package [@citeknitr] and kableExtra package [@citekableExtra].
 
 ```{r tableone, echo=FALSE, fig.width= 15}
+
+#Making a table to show number of cases that were caused through "contact" which is defined in the report. This table is for the months leading up to the holidays, therefore September to December.
 
 S <- count(covid_cases2020 %>% 
   filter(month_of_diagnosis == "Sep", source_of_infection == "Close Contact" | source_of_infection == "Community" | source_of_infection == "Household Contact"))
@@ -124,57 +130,59 @@ rownames(holiday_case) <- c("2020","2021", "2022")
 
 holiday_case<- knitr::kable(holiday_case, caption = "Number of covid cases from contact during holiday months") %>% kable_styling(latex_options = "HOLD_position")
 holiday_case
+
 ```
 
 
-For both years, we notice that the month of December had the highest number of COVID-19 cases, likely because of Christmas where families prefer to spend time with each other as stated earlier. This finding is confirmed by Table 1 because the most cases spread through contact occured in December. Another thing to consider is that in December of 2020, there was a new and more contagious variant of the COVID-19 virus called the delta variant. Similarly, at the end of November 2021, we got the omicron variant, one that was even more contagions than the delta variant. Both of these newer and more contagious variants of COVID-19 play a large role in the spikes of cases for the Decembers of both years. Something to note is the increasing number of covid cases in the months leading up to December 2020 isn't present when looking at those same months in 2021. This is likely due to the increased number of the population that the vaccine had been administered to by then. A decent portion of the population was not able to take the vaccine with Ontario's "Phase One" plan which took place from December of 2020 to March of 2021 prioritized high-risk populations. This included health care workers, seniors and adults in First Nations, Métis and Inuit population. By April of 2021, as part of Ontario's "Phase 2," vaccines had begun to be distributed based off "hot spots" and finally eligible to everyone as a part of their "Phase 3" which began in July of 2021. By October of 2021, 2.29 million citizens of Toronto had received their second dose where as in June of 2021, only 228 407 residents had received their second dose. (citation:https://www.toronto.ca/home/covid-19/covid-19-pandemic-data/covid-19-vaccine-data/). However, the vaccines that people had taken until December of 2021 did not necessarily protect them from the omicron variant. For example, the Pfizer vaccine was 80% effective against the delta variant which dropped to 30% for the omicron variant. (https://www.healthline.com/health-news/by-the-numbers-covid-19-vaccines-and-omicron#2-dose-Pfizer-vaccine-vs.-Omicron). This is likely to be another reason that December of 2021 had the largest amount of cases for any month.  
+From Figure 1, we notice that for both years, the month of December had the highest number of COVID-19 cases, likely because of Christmas where families prefer to spend time with each other as stated earlier. This finding is confirmed by Table 1 because the most cases spread through contact occurred in December. Another thing to consider is that in December of 2020, there was a new and more contagious variant of the COVID-19 virus called the delta variant [@citedelta]. Similarly, at the end of November 2021, we got the omicron variant, one that was even more contagious than the delta variant [@citeomicron]. Both of these newer and more contagious variants of COVID-19 play a large role in the spikes of cases for the Decembers of both years. 
+
+Something to note from Figure 1 is that the increasing number of covid cases in the months leading up to December 2020 are not present when looking at those same months in 2021. This is likely due to the increased number of the population that the vaccine had been administered to by then. A decent portion of the population was not able to take the vaccine with Ontario's "Phase One" plan which took place from December of 2020 to March of 2021 since it prioritized high-risk populations. This included health care workers, seniors (ages 80+) and adults in First Nations, Métis and Inuit population. By April of 2021, Ontario's "Phase 2," began distributing vaccines to seniors (ages 55+), essential caregivers and to individuals in "hot spot" regions. Finally, as a part of their "Phase 3," which began in July of 2021, the vaccines were eligible to everyone [@citeplan]. By October of 2021, 2.29 million citizens of Toronto had received their second dose where as in June of 2021, only 228 407 residents had received their second dose [@citevaxstats]. However, the vaccines that people had taken until December of 2021 did not necessarily protect them from the omicron variant. For example, the Pfizer vaccine was 80% effective in providing protection from the infection against the delta variant which dropped to 30% for the omicron variant [@citeomicron]. This could be the reason that the months leading up to December of 2021 had a comparatively low number of cases until omicron came at the end of November 2021. December of 2021 had the largest amount of cases for any month that year and that trend continuing into January of 2022 where there were more than 30000 cases.  
 
 
 Another variable this dataset gave us was the age group that every case fell under. These age groups ranged from "19 and younger" to "90 and older." The following figure shows the number of cases for every age group.    
 
 
 ```{r, echo=FALSE}
+#This is to see which age group had the highest amount of covid cases. 
+
 age_cases <- covid_cases %>% ggplot(mapping = aes(x= age_group)) + geom_bar() + labs(x = "Age Group", y = "Number of COVID-19 cases") + coord_flip() 
 
-age_cases + plot_annotation(caption = "Cases of COVID-19 by age group", theme = theme(plot.caption.position = "plot", plot.caption = element_text(hjust = 0.1)))
+age_cases + plot_annotation(caption = "Figure 2: Cases of COVID-19 by age group", theme = theme(plot.caption.position = "plot", plot.caption = element_text(hjust = 0.1)))
 
 ```
-Figure 3 (change later) shows us that the younger population catches the virus much more compared to the older population, likely because the younger population has more of a reason to be outside the house, whether that be for work or for school. This could also explain the reasoning behind the decisions of closing schools, restaurants, bars and other recreational facilities. Along with the reason that closing these facilities down limits human contact, all these places are somewhere one is more likely to find a younger audience. Figure 4 looks at the number of covid cases for each month but incorporates individuals age into the graph. For both years, it is evident that those between the ages of 20 and 40 have the highest proportions of cases regardless of which month is looked at. Ages "19 and younger," "20-29" and "30-39" have the highest proportions of cases regardless of month and it gets more significant during the colder months, a time where the virus is at its strongest.      
 
-  
+Figure 2 shows us that the younger population catches the virus much more compared to the older population, likely because the younger population has more of a reason to be outside the house, whether that be for work or for school. This could also explain the reasoning behind the decisions of closing schools, restaurants, bars and other recreational facilities [@citelock]. Along with the reason that closing these facilities down limits human contact, all these places are somewhere one is more likely to find a younger audience. Figure 3 looks at the number of covid cases for each month but incorporates individuals' age into the graph. It is evident that those between the ages "19 and younger," "20-29" and "30-39" have the highest proportions of cases regardless of month and it gets more significant during the colder months, a time where the virus is at its strongest.  
+
 ```{r, echo=FALSE}
+#Combining information from figure 1 and figure 2 to visualize the months that had the higest number of cases and which age group was most affected by the virus
 
 age_and_month <-
   ggplot(
     data = covid_cases,
     mapping = aes_(x = covid_cases$month_of_diagnosis, fill = covid_cases$age_group)
   ) +
-  geom_bar(postion = 'stack') + coord_flip() + labs(x = "Number of COVID-19 Cases", y = "Months")
+  geom_bar(postion = 'stack') + coord_flip() + labs(x = "Months" , y = "Number of COVID-19 Cases") + guides(fill = guide_legend(title = "Age Group"))
 
 
 age_and_month + plot_annotation(
-  caption = "COVID-19 cases for  different months including age groups ",
+  caption = "Figure 3: COVID-19 cases for  different months including age groups ",
   theme = theme(
     plot.caption.position = "plot",
-    plot.caption = element_text(hjust = 0.1)
-  )
-)
+    plot.caption = element_text(hjust = 0.1))) 
 
 #This is used to get a visual representation of the age groups being infected
 
 ```
 
-After the findings of Figure 4 which concluded that a higher proportion of younger Toronto residents have the virus, figuring out the primary source of would be useful to explain the trends seen so far. Figure 5 looks at the number of cases with respect to the source of infection where colors are used to visually show proportions if age groups. The way that the source of infection is concluded is through a conversation between a public health investigator and the individual with the confirmed or probable case of the virus. If the public health investigator is not present to have the assessment, other data fields are used to get the source of infection. This involves looking at if the individual has traveled recently, been in an area that has suffered an outbreak, been in close contact with someone else with covid and whether there has been some sort of contact through their community.
-
-From Figure 5, it is evident that the younger residents, more than any other age group, are not able to provide insight as to how they contracted the virus. Possible reasons pointing to not wanting to admit that guidelines set my the government weren't followed or the other data fields were not able to successfully infer the individual's source of infection.
-
+After the findings of Figure 3 which concluded that a higher proportion of younger Toronto residents have the virus, figuring out the primary source of infection would be useful to get a better picture as to why so much of the younger population was being infected by the virus. Figure 4 looks at the number of cases with respect to the source of infection where colors are used to visually show proportions of age groups. The way that the source of infection is concluded is through a conversation between a public health investigator and the individual with the confirmed or probable case of the virus. If the public health investigator does not give an assessment, other data fields are used to get the source of infection. This involves looking at if the individual has traveled recently, been in an area that has suffered an outbreak, been in close contact with someone else with covid and whether there has been some sort of contact through their community [@citedata].
 
 ```{r, echo=FALSE}
+#Figure to see what type of source was most common amongst every age group.
 
- sourceinf <- covid_cases %>% ggplot(mapping = aes(x = source_of_infection, fill = age_group)) + geom_bar() + coord_flip() + labs(x = "Source of Infection", y = "Number of COVID-19 Cases") 
+ sourceinf <- covid_cases %>% ggplot(mapping = aes(x = source_of_infection, fill = age_group)) + geom_bar() + coord_flip() + labs(x = "Source of Infection", y = "Number of COVID-19 Cases") + guides(fill = guide_legend(title = "Age Group")) 
 
  sourceinf + plot_annotation(
-  caption = "COVID-19 cases for different sources of infection ",
+  caption = "Figure 4: COVID-19 cases for different sources of infection ",
   theme = theme(
     plot.caption.position = "plot",
     plot.caption = element_text(hjust = 0.1)
@@ -184,32 +192,7 @@ From Figure 5, it is evident that the younger residents, more than any other age
 #younger age groups tend to give no information about how they contracted the virus 
 
 ```
-#gender reason as well? 
-#overlap with categories 
-  
-
-  
-```{r, echo=FALSE}
-#locations <- tibble(
-  #postal = c(covid_cases$fsa)
-  #)
-
-#hopeful <- geocode(locations,
-        #postalcode = "postal",
-        #method = "osm")
-
-#cities <- revgeocode(c(43.77977
-
-#,-79.36618), output = "address") 
-
-#cities$locality
-
-```
-
-
-Here's a dumb example of how to use some references: In paper we run our analysis in `R` [@citeR]. We also use the `tidyverse` which was written by @thereferencecanbewhatever If we were interested in baseball data then @citeLahman could be useful. 
-
-
+From Figure 4, it is evident that the younger residents, more than any other age group, are not able to provide insight as to how they contracted the virus. The second highest source is through the community and then household contact. The "19 and younger" group is most affected by household contact, most likely from younger children getting it from their parents or siblings who got it from work or school.  
 
 
 # Discussion
@@ -221,21 +204,18 @@ This dataset is made up of data collected from individuals which means that ther
 
 * The individual knows they have the virus but refuses to report it 
 
-* The individual feels sick but mistake it for the common cold/other virus.
+* The individual feels sick but mistakes it for the common cold/other virus.
 
-From a statistical point of view, there can be some confusion with the "source of infection" observation because there is a lot of overlap between the source being "close contact" and "household contact" due to the fact that an individual can fall under both. This lack of clear distinction between categories can introduce bias into the dataset because out data does not accurately display what should be displayed. The fact that this dataset is confined to many binary responses with areas to fill in addresses and dates means that there is missed opportunity for respondents to give more insight on their situation. Grouping stories regarding the source of infection into categories like "community" and "outbreaks" are although time efficient also lose out important context to every individuals story. (reword) The high proportionality of younger respondents seem who were not able to provide any information about their reported/probable case of COVID-19 is a weakness in this dataset since it isn't able to give any information about how the virus was contracted. This type of information is important for the government and even someone looking at the dataset because it helps them be informed of the most probably source of the infection. 
+From a statistical point of view, there can be some confusion with the "source of infection" observation because there is a lot of overlap between the source being "close contact" and "household contact" due to the fact that an individual can fall under both. This lack of clear distinction between categories can introduce bias into the dataset because our data does not accurately display what should be displayed. Another category that I felt could have been holding this dataset back from providing even more accurate data was the age category, specifically the option where the individual was ages "19 or younger." The problem with grouping the age in a category like this is that it includes toddlers, children and young adults and all of these groups of people are likely to have different behaviors. This means that if a lot of children catch the virus from school or household contact, it automatically groups younger adults into that conclusion as well even if they are not to blame. This can cause problems with decisions that governments may have to make, for example, closure of schools, a place you would find children, and high schools, a place with younger adults. I   
 
+The fact that this dataset is confined to many binary responses with areas to fill in addresses and dates means that there is a missed opportunity for respondents to give more insight on their situation. Grouping stories regarding the source of infection into categories like "community" and "outbreaks" are, although time efficient, also lose out important context to every individual's story. 
 
+An argument for omitted variable bias can be made in this case because it does not allow for any sort of context when responses are recorded [@citebias]. This is especially important if instead of an assessment by the investigators, their status was declared based on their answers to other questions. In this dataset, Figure 5 shows us that most of the cases have "no information" under the source of infection. Perhaps a question such as "where the individual is employed" could give more information as to where the individual could have gotten the virus from and give more context to help with the cases where the investigator was not able to give an assessment. If the individual is employed it could point to them catching the case at work and if they are not, it narrows down on the options already present.    
 
-## Weaknesses and next steps
+There could be a possible case of self-serving bias where an individual downplays qualities that they feel are less desirable [@citebias]. From figure 5 this sort of bias seems more clear because it suggests that of all sources of infection for the virus, the most common source is "no information." The high proportionality of younger respondents seem who were not able to provide any information about their reported/probable case of COVID-19 could be an example of self-serving bias in this dataset as individuals may not prefer saying the truth about how the virus was contracted as it could put them in a position where it looks like government regulations were not followed. This is also a weakness in this dataset as well since it isn't able to give any information about how the virus was contracted. This type of information is important for the government and even someone looking at the dataset because it helps them be informed of the most probable source of the infection. 
 
-Weaknesses and next steps should also be included.
+After carrying out analyses, one can see how covid cases seem to vary on a seasonal basis and how they are higher in the colder climates as prior studies suggested [@citecoldvirus]. The rise of covid cases during the colder months, specifically the month of December, can also be attributed to the holiday season where Table 1 showed us that cases seemed to be much higher in December when looking at cases that had been transmitted through "contact." One can also conclude that the younger population is catching the virus much more in comparison to the older population which as stated in the report is due to the more school/work and recreation that the younger population participates in compared to the older population. This held regardless of the month being studied. From figure 5 we learnt that most cases their source of infection to be "no information" which we also mentioned could be a case of self-serving bias. Despite this virus being such a recent event in history it interesting to see how there are patterns that are being formed and trends that this virus seems to follow. That being said, with how recent this virus is, it is important to be prepared for new variants which may not fall in line with the findings of this paper.  
 
-\newpage
-
-\appendix
-
-# Appendix {-}
 
 
 \newpage
@@ -243,11 +223,4 @@ Weaknesses and next steps should also be included.
 
 # References
 
-*Ontario's COVID-19 vaccination plan.* Ontario.ca. (2021, September 14). Retrieved February 6, 2022, from     https://covid-19.ontario.ca/ontarios-covid-19-vaccination-plan 
-
-Sakay, Y. N. (2022, January 7). *How effective are covid-19 vaccines against Omicron?* Healthline. Retrieved February 6, 2022, from https://www.healthline.com/health-news/by-the-numbers-covid-19-vaccines-and-omicron#Omicron-vs.-Delta:-Vaccines-seem-less-effective-
-
-City of Toronto. (2022, January 26). *COVID 19: Vaccine data.* City of Toronto. Retrieved February 6, 2022, from https://www.toronto.ca/home/covid-19/covid-19-pandemic-data/covid-19-vaccine-data/ 
-
-Katella, K. (2021, June 28). *5 things to know about the Delta variant.* Yale Medicine. Retrieved February 6, 2022, from https://www.yalemedicine.org/news/5-things-to-know-delta-variant-covid 
 
